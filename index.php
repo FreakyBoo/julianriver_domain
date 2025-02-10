@@ -1,12 +1,17 @@
 <?php
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
-?>
-<?php
+// Koble til databasen
 include 'db_connect.php';
+
+// Spørring for å hente alle produkter fra databasen
 $query = "SELECT * FROM produkter";
 $result = mysqli_query($conn, $query);
+
+// Sjekk om spørringen har returnert resultater
+if (!$result) {
+    die("Feil ved henting av produkter: " . mysqli_error($conn));
+}
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -15,25 +20,21 @@ $result = mysqli_query($conn, $query);
 </head>
 <body>
     <h1>Velkommen til Nettbutikken</h1>
-    <h2>(Trykk på Produktene under for å komme til bestilling siden)</h2>
     <div class="produkter">
-        <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+        <?php 
+        // Looper gjennom alle produkter og lager lenker for hvert produkt
+        while ($row = mysqli_fetch_assoc($result)) { 
+            $produkt_id = $row['produkt_id']; // Hent produkt_id fra databasen
+            $produkt_navn = $row['navn']; // Hent produktnavn fra databasen
+            $produkt_pris = $row['pris']; // Hent produktpris fra databasen
+        ?>
             <div class="produkt">
-                <h2><?php echo $row['navn']; ?></h2>
-                <p>Pris: <?php echo $row['pris']; ?> NOK</p>
-                <a href="bestilling.php?produkt_id=<?php echo $row['id']; ?>">Bestill</a>
+                <h2><?php echo $produkt_navn; ?></h2>
+                <p>Pris: <?php echo number_format($produkt_pris, 2, ',', ' '); ?> NOK</p>
+                <!-- Dynamisk generering av lenke basert på produkt_id -->
+                <a href="bestilling.php?produkt_id=<?php echo $produkt_id; ?>">Bestill <?php echo $produkt_navn; ?></a>
             </div>
         <?php } ?>
     </div>
-    <h1>Produkter</h1>
-    
-    <!-- Lenke til bestilling av iPhone 15 -->
-    <a href="bestilling.php?produkt_id=4">iPhone 15</a><br>
-    
-    <!-- Lenke til bestilling av MacBook Air -->
-    <a href="bestilling.php?produkt_id=5">MacBook Air</a><br>
-    
-    <!-- Lenke til bestilling av Apple Watch -->
-    <a href="bestilling.php?produkt_id=6">Apple Watch</a><br>
 </body>
 </html>
