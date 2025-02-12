@@ -17,21 +17,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Hent data fra skjemaet
     $epost = $_POST['epost'];
-    $telefon = $_POST['telefon'];
+    $passord = $_POST['passord'];
 
     // Sjekk om brukeren finnes i databasen
-    $sql = "SELECT * FROM kunder WHERE epost = '$epost' AND telefon = '$telefon'";
+    $sql = "SELECT * FROM kunder WHERE epost = '$epost'";
     $result = $conn->query($sql);
 
     if ($result->num_rows > 0) {
-        // Bruker finnes, lagre brukerens info i sesjonen
+        // Bruker finnes, sjekk passordet
         $row = $result->fetch_assoc();
-        $_SESSION['kunde_id'] = $row['kunde_id'];
-        $_SESSION['fornavn'] = $row['fornavn'];
-        header("Location: welcome.php"); // Omviderer til velkomstside
-        exit();
+        if (password_verify($passord, $row['passord'])) {
+            // Passordet er riktig, lagre brukerens info i sesjonen
+            $_SESSION['kunde_id'] = $row['kunde_id'];
+            $_SESSION['fornavn'] = $row['fornavn'];
+            header("Location: welcome.php"); // Omviderer til velkomstside
+            exit();
+        } else {
+            echo "Feil brukernavn eller passord.";
+        }
     } else {
-        echo "Feil epost eller telefon.";
+        echo "Feil brukernavn eller passord.";
     }
 
     $conn->close();
@@ -49,7 +54,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <h1>Logg inn</h1>
     <form action="login.php" method="POST">
         <input type="email" name="epost" placeholder="Epost" required>
-        <input type="text" name="telefon" placeholder="Telefon" required>
+        <input type="password" name="passord" placeholder="passord" required>
         <button type="submit">Logg inn</button>
     </form>
 </body>
