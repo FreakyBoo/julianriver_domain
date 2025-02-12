@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $epost = $_POST['epost'];
     $passord = $_POST['passord'];
 
-    // Sjekk om brukeren finnes i databasen
+    // Sjekk om brukerens epost finnes i databasen
     $sql = "SELECT * FROM kunder WHERE epost = '$epost'";
     $result = $conn->query($sql);
 
