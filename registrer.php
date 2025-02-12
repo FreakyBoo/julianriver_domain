@@ -19,9 +19,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $epost = $_POST['epost'];
     $telefon = $_POST['telefon'];
     $adresse = $_POST['adresse'];
+    $passord = password_hash($_POST['passord'], PASSWORD_DEFAULT);// Hasher passordet
+
+
     
     // Sett inn bruker i databasen
-    $sql = "INSERT INTO kunder (fornavn, etternavn, epost, telefon, adresse) VALUES ('$fornavn', '$etternavn', '$epost', '$telefon', '$adresse')";
+    $sql = "INSERT INTO kunder (fornavn, etternavn, epost, telefon, adresse, passord) VALUES ('$fornavn', '$etternavn', '$epost', '$telefon', '$adresse', '$passord')";
     
     if ($conn->query($sql) === TRUE) {
         echo "Bruker registrert! <a href='login.php'>Logg inn her</a>";
@@ -46,6 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <input type="text" name="fornavn" placeholder="Fornavn" required>
         <input type="text" name="etternavn" placeholder="Etternavn" required>
         <input type="email" name="epost" placeholder="Epost" required>
+        <input type="password" name="passord" placeholder="Passord" required>
         <input type="text" name="telefon" placeholder="Telefon" required>
         <textarea name="adresse" placeholder="Adresse" required></textarea>
         <button type="submit">Registrer</button>
