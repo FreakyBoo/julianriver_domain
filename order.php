@@ -87,14 +87,27 @@ if (isset($_POST['complete_order'])) {
     <form action="order.php" method="POST">
         <h2>Velg produkter:</h2>
         <?php
-        $conn = new mysqli("localhost", "julian", "Julian2007!", "nettbutikk");
-        $sql = "SELECT * FROM produkter";
-        $result = $conn->query($sql);
-        $conn->close();
-        
-        if ($result->num_rows > 0):
-            while($row = $result->fetch_assoc()):
-        ?>
+    // Opprett en tilkobling til MySQL-databasen
+    $conn = new mysqli("localhost", "julian", "Julian2007!", "nettbutikk");
+
+    // Sjekk om tilkoblingen var vellykket
+    if ($conn->connect_error) {
+        die("Tilkoblingsfeil: " . $conn->connect_error);
+    }
+
+    // Hent alle produkter fra databasen
+    $sql = "SELECT * FROM produkter";
+    $result = $conn->query($sql);
+
+    // Lukk tilkoblingen til databasen
+    $conn->close();
+
+    // Sjekk om det finnes produkter i databasen
+    if ($result->num_rows > 0):
+        // Loop gjennom hvert produkt og hent data
+        while($row = $result->fetch_assoc()):
+    ?>
+
                 <div>
                     <span><?php echo $row['navn']; ?> - <?php echo $row['pris']; ?> kr</span>
                     <button type="submit" name="add_product" value="<?php echo $row['produkt_id']; ?>">Legg til</button>
