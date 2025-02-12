@@ -79,6 +79,7 @@ if (isset($_POST['complete_order'])) {
 <html lang="no">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="nettside.css">
     <title>Bestill produkter</title>
 </head>
 <body>

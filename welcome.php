@@ -12,6 +12,7 @@ if (!isset($_SESSION['kunde_id'])) {
 <html lang="no">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="nettside.css">
     <title>Velkommen</title>
 </head>
 <body>
