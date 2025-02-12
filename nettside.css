@@ -1,7 +1,7 @@
 /* Generelle stiler for hele nettsiden */
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: #ede9e9;
     margin: 0;
     padding: 0;
     display: flex;
@@ -35,7 +35,7 @@ input, textarea, button {
 }
 
 button {
-    background-color: #28a745;
+    background-color: #2850a7;
     color: white;
     font-weight: bold;
     cursor: pointer;
